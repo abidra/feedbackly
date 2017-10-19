@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 
 class Header extends Component {
+  renderContent() {
+    switch (this.props.auth) {
+      case null:
+        return;
+      case false:
+        return <a href="/auth/google">Login With Google</a>;
+      default:
+        return <a href="/logout">Logout</a>;
+    }
+  }
   render() {
     return (
       <nav>
@@ -9,13 +19,15 @@ class Header extends Component {
             Feedbackly
           </a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li>
-              <a href="sass.html">Login With Google</a>
-            </li>
+            <li>{this.renderContent()}</li>
           </ul>
         </div>
       </nav>
     );
   }
 }
-export default Header;
+function mapStateToProps({ auth }) {
+  return { auth };
+}
+
+export default connect()(Header);
